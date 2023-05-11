@@ -1,6 +1,6 @@
 <template>
   <div>
-    hello world fsadfas {{ $page.props.user }}
+    hello world fsadfas {{ $page.props }}
   </div>
 </template>
 
