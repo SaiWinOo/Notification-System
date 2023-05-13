@@ -1,10 +1,12 @@
 <template>
-$END$
+<Navbar></Navbar>
 </template>
 
 <script>
-export default {
+import Navbar from "../Components/Navbar.vue";
 
+export default {
+    components: {Navbar}
 }
 </script>
 

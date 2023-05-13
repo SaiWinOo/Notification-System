@@ -5,6 +5,7 @@
  */
 
 import axios from 'axios';
+
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -18,28 +19,25 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 import Echo from "laravel-echo"
 
 import Pusher from 'pusher-js';
-window.Pusher = Pusher;
 
+window.Pusher = Pusher;
+let user = JSON.parse(localStorage.getItem('user'));
 window.Echo = new Echo({
-  broadcaster: 'pusher',
-  key: import.meta.env.VITE_PUSHER_APP_KEY,
-  cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-  wsHost: window.location.hostname,
-  wsPort: 6001,
-  authEndpoint: '/broadcasting/auth',
-  forceTLS: false,
-  disableStats: true,
+    broadcaster: 'pusher',
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+    wsHost: window.location.hostname,
+    wsPort: 6001,
+    // authEndpoint: 'http://127.0.0.1:8000/api/broadcasting/auth',
+    // auth: {
+    //     headers: {
+    //         Authorization: 'Bearer '+ user.token
+    //     }
+    // },
+    forceTLS: false,
+    disableStats: true,
 });
 
-window.Echo.channel('orders')
-  .listen('OrderStatusUpdate', function (e) {
-    console.log(e)
-  });
-let user = {
-  id: 1
-}
 
-window.Echo.private(`private-App.Models.User.${user.id}`)
-  .notification((notification) => {
-    console.log(notification);
-  });
+
+

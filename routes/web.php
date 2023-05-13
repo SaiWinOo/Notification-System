@@ -1,9 +1,9 @@
 <?php
 
-use App\Events\OrderStatusUpdate;
 use App\Models\User;
-use App\Notifications\InvoicePaid;
 use Illuminate\Support\Facades\Route;
+use App\Notifications\LikeComment;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +16,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/', function () {
+    return inertia('hello/welcome');
+});
+
+Route::get('/login', function () {
+
+    return inertia('Auth/Login');
+});
+
+Route::post('/login', function () {
+    if (auth()->attempt(['email' => request('email'), 'password' => request('password')])) {
+        return redirect('/');
+    }
+});
+
+
+Route::post('/notify', function (Request $request) {
+    $userToSendNotiTo = User::whereEmail($request->email)->first();
+    $userToSendNotiTo->notify(new LikeComment(auth()->user()->name, $request->message, $request->url));
+    return back();
+});
